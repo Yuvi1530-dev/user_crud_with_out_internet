@@ -1,0 +1,126 @@
+
+<div class="row">
+    <div class="col-8">
+        <table class="table table-bordered ">
+            <thead>
+                <tr class="bg-success text-white">
+                    <th>Id</th>
+                    <th >Image</th>
+                    <th>Product Name</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th (click)="onDateSort()" >Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td> <input type="text" placeholder="Search Product" (keyup)="filter($event,'product')"
+                            class="form-control"></td>
+                    <td><input type="text" placeholder="Search Details" (keyup)="filter($event,'details')"
+                            class="form-control"></td>
+                    <td><input type="text" placeholder="Search Price" (keyup)="filter($event,'price')"
+                            class="form-control"></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="text" name="daterange"/></td>
+                    <td></td>
+                </tr>
+                <tr *ngFor="let user of filteredUsers | paginate: { itemsPerPage: limit , currentPage: current_page, totalItems: filteredUsers.length};let srNo = index">
+                    <td>{{srNo+1}}</td>
+                    <td>
+                        <div *ngIf="user.status">
+                            <div class="form-group" style="cursor: pointer;">
+                                <span class="la la-user form-icon"></span>
+                                <input type="file"  class="form-control" accept="image/png, image/gif, image/jpeg" (change)="profileUpload($event)">
+                            </div>
+                        </div>
+                        <div *ngIf="!user.status">
+                            <img [src]="user.image" alt="" class="test_image">
+                        </div>
+
+                    </td>
+                    <td>
+                        <div *ngIf="user.status">
+                            <input type="text" class="form-control" [(ngModel)]="user.product_name">
+                        </div>
+                        <div *ngIf="!user.status">
+                            {{user.product_name}}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="user.status">
+                            <input type="text" class="form-control" [(ngModel)]="user.detail">
+                        </div>
+                        <div *ngIf="!user.status">
+                            {{user.detail}}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="user.status">
+                            <input type="text" class="form-control" [(ngModel)]="user.price">
+                        </div>
+                        <div *ngIf="!user.status">
+                            {{user.price}}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="user.status">
+                            <input type="text" class="form-control" [(ngModel)]="user.quantity">
+                        </div>
+                        <div *ngIf="!user.status">
+                            {{user.quantity}}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="user.status">
+                            <input type="text" class="form-control" [(ngModel)]="user.total">
+                        </div>
+                        <div *ngIf="!user.status">
+                            {{user.total}}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="user.status">
+                            <input class="form-control" [(ngModel)]="user.date" type="date" />
+                        </div>
+                        <div *ngIf="!user.status">
+                            {{user.date}}
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div *ngIf="!user.status">
+                            <i class="fa fa-pencil-square-o px-1" aria-hidden="true" (click)="onEdit(user)"></i>
+                            <i class="fa fa-trash-o" aria-hidden="true" (click)="onDelete(user)"></i>
+                        </div>
+                        <div *ngIf="user.status">
+                            <i class="fa fa-cloud px-1" (click)="onUpdate(user)" aria-hidden="true"></i>
+                            <i class="fa fa-times-circle" aria-hidden="true" (click)="onCancel(user)"></i>
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+            
+        </table>
+        <div class="row">
+            <div class="col-12 text-end">
+                <button class="btn btn-sm btn-success" (click)="onAdd()">Add New</button>
+        
+            </div>
+        </div>
+        <div class="pagination" *ngIf="filteredUsers.length  ">
+            <div class="row">
+                <div class="text-center" >
+                    <pagination-controls 
+                        (pageChange)="getPage(current_page = $event)"
+                    ></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
